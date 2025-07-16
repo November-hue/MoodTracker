@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <title>Mood Tracker Dashboard</title>
+        <link rel="stylesheet" href="dashboard.css">
+
+    </head>
+
+    <body>
+        <header>
+            <h1>Mood Tracker Dashboard</h1>
+        </header>
+
+        <section id="log-mood">
+            <h2>Log Today's Mood</h2>
+            <form id="mood-form">
+                <label for="mood"> Mood:</label>
+                <select id="mood" name ="mood">
+                    <option value="Happy"> Happy</option>
+                    <option value="Sad"> Sad</option>
+                    <option value="Anxious"> Anxious</option>
+                    <option value="Excited"> Excited</option>
+                    <option value="Neutral"> Neutral</option>
+                </select><br><br>
+
+                <label for="note"> Notes:</label><br>
+                <textarea id="note" name="note" rows="4" cols="50"></textarea><br><br>
+
+                <button type="submit">Save Mood</button>
+            </form>
+        </section>
+
+       <section id="journal-entries">
+        <h2>Your Journal Enteries</h2>
+        <div id="entries-list">
+
+            <!--Mood entries will appear here dynamically-->
+        </div>
+       </section>
+
+       <section id="analytics">
+        <h2>Mood Trends</h2>
+        <canvas id="moodChart" width="400" height="200"></canvas>
+       </section>
+
+       <script src="dashboard.js"></script>
+
+    </body>
+</html>

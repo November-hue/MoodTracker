@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodTracker App</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #f4f4f4; /*white*/
+            font-family: 'Arial', sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /*purple and blue*/
+            color: white; 
+            text-align: center;
+            padding: 30px 10px;
+            margin-bottom: 20px;
+        }
+        .feature-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MoodTracker</h1>
+    <p>Log your moods, reflect daily, and track your emotional health.</p>
+</header>
+
+<div class="container">
+
+    <!-- Mood Logging -->
+    <div class="feature-card">
+        <h2>Log Your Mood</h2>
+        <form id="moodForm">
+            <div class="mb-3">
+                <label for="mood" class="form-label">Mood (1 = 😞 to 5 = 😄):</label>
+                <input type="range" class="form-range" min="1" max="5" id="mood" required>
+            </div>
+            <div class="mb-3">
+                <label for="note" class="form-label">What influenced your mood today?</label>
+                <textarea class="form-control" id="note" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Mood</button>
+        </form>
+    </div>
+
+    <!-- Journal -->
+    <div class="feature-card">
+        <h2>Daily Journal</h2>
+        <form id="journalForm">
+            <div class="mb-3">
+                <textarea class="form-control" id="journalEntry" placeholder="Write your thoughts here..." rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save Journal</button>
+        </form>
+    </div>
+
+    <!-- Mood Trend Graph -->
+    <div class="feature-card">
+        <h2>Mood Trends</h2>
+        <canvas id="moodChart" height="100"></canvas>
+    </div>
+
+    <!-- Gratitude Prompt -->
+    <div class="feature-card">
+        <h2>Daily Gratitude Prompt</h2>
+        <p id="gratitudePrompt">What made you smile today?</p>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const moodData = [];
+    const moodChart = new Chart(document.getElementById('moodChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Mood over Time',
+                data: [],
+                fill: false,
+                borderColor: '#6a11cb',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    min: 1,
+                    max: 5
+                }
+            }
+        }
+    });
+
+    document.getElementById('moodForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const mood = document.getElementById('mood').value;
+        const note = document.getElementById('note').value;
+        const date = new Date().toLocaleDateString();
+
+        moodChart.data.labels.push(date);
+        moodChart.data.datasets[0].data.push(mood);
+        moodChart.update();
+
+        alert(`Mood saved! Note: ${note}`);
+        this.reset();
+    });
+
+    document.getElementById('journalForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const entry = document.getElementById('journalEntry').value;
+        alert('Journal Entry Saved:\n' + entry);
+        this.reset();
+    });
+
+    // Gratitude Prompts List
+    const prompts = [
+        "What made you smile today?",
+        "Name one thing you're thankful for today.",
+        "Who made your day better and why?",
+        "What positive thing happened today?",
+        "What's one thing you did for yourself today?"
+    ];
+
+    // Random prompt on each load
+    document.getElementById('gratitudePrompt').textContent = prompts[Math.floor(Math.random() * prompts.length)];
+</script>
+
+</body>
+</html>
